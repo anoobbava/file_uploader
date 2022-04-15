@@ -9,7 +9,7 @@ class FileUploadersController < ApplicationController
   before_action :set_file_uploader, only: %i[show edit update destroy]
 
   def index
-    @file_uploaders = FileUploader.all
+    @file_uploaders = FileUploader.where(user_id: current_user.id)
   end
 
   def show; end
@@ -21,7 +21,7 @@ class FileUploadersController < ApplicationController
   def edit; end
 
   def create
-    @file_uploader = FileUploader.new(file_uploader_params)
+    @file_uploader = FileUploader.new(file_uploader_params.merge!(user_id: current_user.id))
     respond_to do |format|
       if @file_uploader.save
         format.html { redirect_to file_uploader_url(@file_uploader), notice: 'File uploader was successfully created.' }
@@ -35,7 +35,7 @@ class FileUploadersController < ApplicationController
 
   def update
     respond_to do |format|
-      if @file_uploader.update(file_uploader_params)
+      if @file_uploader.update(file_uploader_params.merge!(user_id: current_user.id))
         format.html { redirect_to file_uploader_url(@file_uploader), notice: 'File uploader was successfully updated.' }
         format.json { render :show, status: :ok, location: @file_uploader }
       else
@@ -46,6 +46,7 @@ class FileUploadersController < ApplicationController
   end
 
   def destroy
+    @file_uploader.file_data.purge
     @file_uploader.destroy
 
     respond_to do |format|
@@ -63,6 +64,6 @@ class FileUploadersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def file_uploader_params
-    params.require(:file_uploader).permit(:title, :description, :user_id)
+    params.require(:file_uploader).permit(:title, :description, :user_id, :file_data)
   end
 end
