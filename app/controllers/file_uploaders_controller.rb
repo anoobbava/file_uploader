@@ -21,9 +21,11 @@ class FileUploadersController < ApplicationController
   def edit; end
 
   def create
-    @file_uploader = FileUploader.new(file_uploader_params.merge!(user_id: current_user.id))
+    @file_uploader = FileUploader.new(file_uploader_params.merge!(user_id: current_user.id,
+                                                                  short_url: ShortUrlService.generate_short_url))
     respond_to do |format|
       if @file_uploader.save
+        ShortUrlService.generate_short_url(@file_uploader)
         format.html { redirect_to file_uploader_url(@file_uploader), notice: 'File uploader was successfully created.' }
         format.json { render :show, status: :created, location: @file_uploader }
       else
@@ -35,7 +37,8 @@ class FileUploadersController < ApplicationController
 
   def update
     respond_to do |format|
-      if @file_uploader.update(file_uploader_params.merge!(user_id: current_user.id))
+      if @file_uploader.update(file_uploader_params.merge!(user_id: current_user.id,
+                                                           short_url: ShortUrlService.generate_short_url))
         format.html { redirect_to file_uploader_url(@file_uploader), notice: 'File uploader was successfully updated.' }
         format.json { render :show, status: :ok, location: @file_uploader }
       else
@@ -55,6 +58,12 @@ class FileUploadersController < ApplicationController
     end
   end
 
+  # Download the file from tiny url
+  def download
+    @file_uploader = FileUploader.find_by(short_url: params[:short_url])
+    redirect_to rails_blob_path(@file_uploader.file_data, disposition: 'attachment')
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -64,6 +73,6 @@ class FileUploadersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def file_uploader_params
-    params.require(:file_uploader).permit(:title, :description, :user_id, :file_data)
+    params.require(:file_uploader).permit(:title, :description, :user_id, :file_data, :short_url)
   end
 end

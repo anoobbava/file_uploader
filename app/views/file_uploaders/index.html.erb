@@ -7,6 +7,7 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
+      <th>short url</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= file_uploader.title %></td>
         <td><%= file_uploader.description %></td>
+        <td><%= file_uploader.url %></td>
         <td><%= link_to 'Show', file_uploader %></td>
         <td><%= link_to 'Edit', edit_file_uploader_path(file_uploader) %></td>
         <td><%= link_to 'Destroy', file_uploader, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -23,7 +25,6 @@
     <% end %>
   </tbody>
 </table>
-
 <br>
 
 <%= link_to 'New File Uploader', new_file_uploader_path %>
