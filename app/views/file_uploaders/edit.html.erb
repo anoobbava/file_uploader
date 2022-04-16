@@ -1,6 +1,9 @@
-<h1>Editing File Uploader</h1>
 
-<%= render 'form', file_uploader: @file_uploader %>
+<div class="container">
+  <h1>Editing File Uploader</h1>
 
-<%= link_to 'Show', @file_uploader %> |
-<%= link_to 'Back', file_uploaders_path %>
+  <%= render 'form', file_uploader: @file_uploader %>
+  <br/>
+  <%= link_to 'Show', @file_uploader, class: "btn btn-success" %>
+  <%= link_to 'Back', file_uploaders_path, class: "btn btn-primary" %>
+</div>
