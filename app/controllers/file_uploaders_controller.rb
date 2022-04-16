@@ -25,7 +25,7 @@ class FileUploadersController < ApplicationController
                                                                   short_url: ShortUrlService.generate_short_url))
     respond_to do |format|
       if @file_uploader.save
-        ShortUrlService.generate_short_url(@file_uploader)
+        ShortUrlService.generate_short_url
         format.html { redirect_to file_uploader_url(@file_uploader), notice: 'File uploader was successfully created.' }
         format.json { render :show, status: :created, location: @file_uploader }
       else
