@@ -1,13 +1,12 @@
-<p id="notice"><%#= notice %></p>
 
-<h1>File Uploaders</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Title</th>
       <th>Description</th>
       <th>short url</th>
+      <th>Actions</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,15 +17,11 @@
         <td><%= file_uploader.title %></td>
         <td><%= file_uploader.description %></td>
         <td><%= file_uploader.url %></td>
-        <td><%= link_to 'Show', file_uploader %></td>
-        <td><%= link_to 'Edit', edit_file_uploader_path(file_uploader) %></td>
-        <td><%= link_to 'Destroy', file_uploader, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', file_uploader, class: "btn btn-success" %></td>
+        <td><%= link_to 'Edit', edit_file_uploader_path(file_uploader), class: "btn btn-primary" %></td>
+        <td><%= link_to 'Destroy', file_uploader, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 <br>
-
-<%= link_to 'New File Uploader', new_file_uploader_path %>
-
-<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>

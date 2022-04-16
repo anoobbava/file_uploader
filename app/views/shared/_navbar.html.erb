@@ -1,0 +1,7 @@
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">File Uploader</a>
+  <%if user_signed_in?%>
+    <%= link_to 'New File Upload', new_file_uploader_path, class: 'btn btn-success' %>
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'btn btn-danger'%>
+  <% end %>
+</nav>
