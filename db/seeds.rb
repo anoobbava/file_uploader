@@ -5,9 +5,14 @@
 #
 
 # create a user with a password
-user = User.create!(email: 'admin@admin.com', password: 'password', password_confirmation: 'password')
+User.create!(email: 'admin@admin.com', password: 'admin@admin.com', password_confirmation: 'admin@admin.com')
 
 # create a file uploaders
-(1..10).each do |_i|
-  FileUploader.create!(title: Faker::Lorem.sentence, description: Faker::Lorem.paragraph, user_id: User.last.id)
+(1..10).each do |i|
+  uploader = FileUploader.new(title: Faker::Lorem.sentence, description: Faker::Lorem.paragraph,
+                              user_id: User.last.id)
+  uploader.short_url = ShortUrlService.generate_short_url
+  uploader.file_data.attach(io: File.open(Rails.root.join('app/assets/images/image.jpg')),
+                            filename: "image_#{i}.jpg", content_type: 'image/jpg')
+  uploader.save!
 end
